@@ -2,17 +2,25 @@ const express = require("express");
 const User = require("../models/User");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
-const bycrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
+
+const bycrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const JWT_SECRET = "qwert";
 
-// CREATE A USER USING POST "API/AUTH"
+const fetchUser = require("../middleware/fetchUser");
+
+
+// CREATE A USER USING POST "API/AUTH/CREATEUSER"
 router.post(
   "/createUser",
   [
-    body("name", "Name length must be more than 2 characters").isLength({ min: 2, }),
+    body("name", "Name length must be more than 2 characters").isLength({
+      min: 2,
+    }),
     body("email", "Invalid EmaIl").isEmail(),
-    body("password", "Password must be atleast 3 characters").isLength({ min: 3, }),
+    body("password", "Password must be atleast 3 characters").isLength({
+      min: 3,
+    }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,17 +47,67 @@ router.post(
 
       const data = {
         user: {
-          id: user.id
-        }
-      }
+          id: user.id,
+        },
+      };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({authToken});
-
+      res.json({ authToken });
     } catch (error) {
       console.error(error);
       res.status(500).send("Some Error Occoured");
     }
   }
 );
+
+// LOGIN A USER USING POST "API/AUTH/LOGIN"
+router.post(
+  "/login",
+  [
+    body("email", "Invalid EmaIl").isEmail(),
+    body("password", "Password cannot be blank !").exists(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+    // CHECK WHETHER USER EXISTS OR NOT
+    try {
+      let user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ error: "Incorrect credentials !" });
+      }
+
+      const passCompare = await bycrypt.compare(password, user.password);
+      if (!passCompare) {
+        return res.status(400).json({ error: "Incorrect credentials !" });
+      }
+      const payLoad = {
+        user: {
+          id: user.id,
+        },
+      };
+      const authToken = jwt.sign(payLoad, JWT_SECRET);
+      res.json({ authToken });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Some Error Occoured");
+    }
+  }
+);
+
+// GET LOGEDIN USER DETAILS "API/AUTH/GETUSER"
+router.post("/getUser",fetchUser, async (req, res) => {
+  try {
+    var userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    res.send(user)
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Some Error Occoured");
+  }
+});
 
 module.exports = router;
