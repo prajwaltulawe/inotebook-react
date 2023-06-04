@@ -5,7 +5,9 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Navbar</Link>
+        <Link className="navbar-brand" to="/">
+          Navbar
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -25,7 +27,9 @@ export const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">About</Link>
+              <Link className="nav-link" to="/about">
+                About
+              </Link>
             </li>
           </ul>
           <form className="d-flex" role="search">
