@@ -28,12 +28,20 @@ export const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          <div className="d-flex" role="search">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className={`nav-link ${location.pathname==="/login" ? "active" : "" }`} aria-current="page" to="/login">
+                Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className={`nav-link ${location.pathname==="/signup" ? "active" : "" }`} to="/signup">
+                Signup
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>

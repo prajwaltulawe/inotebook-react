@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = "qwert";
 
 const fetchUser = require("../middleware/fetchUser");
-
+let success = false;
 
 // CREATE A USER USING POST "API/AUTH/CREATEUSER"
 router.post(
@@ -69,7 +69,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
 
     const { email, password } = req.body;
@@ -77,12 +77,12 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ error: "Incorrect credentials !" });
+        return res.status(400).json({ success, error: "Incorrect credentials !" });
       }
 
       const passCompare = await bycrypt.compare(password, user.password);
       if (!passCompare) {
-        return res.status(400).json({ error: "Incorrect credentials !" });
+        return res.status(400).json({ success, error: "Incorrect credentials !" });
       }
       const payLoad = {
         user: {
@@ -90,7 +90,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(payLoad, JWT_SECRET);
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.error(error);
       res.status(500).send("Some Error Occoured");

@@ -75,7 +75,7 @@ export const Notes = () => {
               <button type="button" className="btn btn-secondary" ref={refClose} data-bs-dismiss="modal">
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>
+              <button disabled={note.etitle.length<5 || note.edescription.length<5} type="button" className="btn btn-primary" onClick={handleClick}>
                 Update Note
               </button>
             </div>
@@ -85,10 +85,11 @@ export const Notes = () => {
     
       <div className="container row">
         <h1>YOUR NOTES</h1>
+        {notes.length===0 && "No Notes to Display"}
         {notes.map((note) => {
-        return (
-        <NoteItem note={note} key={note._id} updateNote={updateNote}></NoteItem>
-        );
+          return (
+            <NoteItem note={note} key={note._id} updateNote={updateNote}></NoteItem>
+          );
         })}
       </div>
     </>
