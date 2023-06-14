@@ -1,15 +1,15 @@
 import React from "react";
 import Notes from "./Notes";
 
-export const Home = () => {
-
+export const Home = (props) => {
+  const {showAlert} = props;
   return (
     <div>
       <div className="container">
         
       </div>
 
-      <Notes></Notes>
+      <Notes showAlert={showAlert}></Notes>
     </div>
   );
 };

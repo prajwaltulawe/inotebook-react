@@ -25,7 +25,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
 
     // CHECK WHETHER USER EXISTS OR NOT
@@ -51,9 +51,10 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
+      success = false;
     } catch (error) {
-      console.error(error);
       res.status(500).send("Some Error Occoured");
     }
   }
@@ -93,7 +94,6 @@ router.post(
       success = true;
       res.json({ success, authToken });
     } catch (error) {
-      console.error(error);
       res.status(500).send("Some Error Occoured");
     }
   }

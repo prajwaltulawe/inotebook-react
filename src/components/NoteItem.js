@@ -15,7 +15,7 @@ return (
             </div>
             <p className="card-text">{note.description}</p>
             <i className="fas fa-regular fa-pen-to-square" onClick={()=> {updateNote(note)}}></i>
-            <i className="fas fa-regular fa-trash mx-2" onClick={()=>{deleteNote(note._id)}}></i>
+            <i className="fas fa-regular fa-trash mx-2" onClick={()=>{deleteNote(note._id); props.showAlert("Deleted Successfully", "danger") }}></i>
         </div>
     </div>
 </div>
