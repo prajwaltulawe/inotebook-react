@@ -18,9 +18,9 @@ const Signup = (props) => {
       const response = await loginResponse.json();
       if (response.success) {
           navigate('/login');
-          props.showAlert("Account created successfully. Login to access", "success")
+          props.showAlert("Account created successfully. Login to access", "warning")
       } else{
-          props.showAlert("Invalid Credentials", "danger")
+          props.showAlert("Invalid Credentials", "alert")
       }
   };
 
@@ -29,6 +29,7 @@ const Signup = (props) => {
   }
   return (
     <div className="container m-auto mt-4"> 
+    <h1>SIGN UP</h1>
             <form onSubmit={handleSignupSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Name</label>
@@ -51,7 +52,7 @@ const Signup = (props) => {
                     <input type="password" className="form-control mt-2" id="cpassword" name="cpassword" onChange={onChange} value={credentials.cpassword} placeholder="Confirm Password" />
                 </div>
                 <button type="submit" disabled={credentials.password !== credentials.cpassword} className="btn btn-primary mt-2" >
-                    Submit
+                    Sign up
                 </button>
             </form>
         </div>

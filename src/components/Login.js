@@ -19,9 +19,9 @@ const Login = (props) => {
         if (response.success) {
             localStorage.setItem('token', response.authToken);
             navigate('/');
-            props.showAlert("Successfully LogedIn", "success")
+            props.showAlert("Successfully LogedIn", "warning")
         } else{
-            props.showAlert("Invalid Credentials", "danger")
+            props.showAlert("Invalid Credentials", "alert")
         }
     };
 
@@ -31,6 +31,7 @@ const Login = (props) => {
 
     return (
         <div className="container m-auto mt-4"> 
+        <h1>LOGIN</h1>
             <form onSubmit={handleLoginSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">Email address</label>
@@ -45,7 +46,7 @@ const Login = (props) => {
                     <input type="password" className="form-control mt-2" id="password" name="password" onChange={onChange} value={credentials.password} placeholder="Password" />
                 </div>
                 <button type="submit" className="btn btn-primary mt-2" >
-                    Submit
+                    Login
                 </button>
             </form>
         </div>

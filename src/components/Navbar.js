@@ -1,9 +1,14 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
-
+  const navigate = useNavigate();
   let location = useLocation();
+  const handleLogout = () =>{
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -28,10 +33,13 @@ export const Navbar = () => {
               </Link>
             </li>
           </ul>
+    
+          { !localStorage.getItem('token') ?
           <div className="d-flex" role="search">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className={`nav-link ${location.pathname==="/login" ? "active" : "" }`} aria-current="page" to="/login">
+                <Link className={`nav-link ${location.pathname==="/login" ? "active" : "" }`} aria-current="page"
+                  to="/login">
                 Login
                 </Link>
               </li>
@@ -41,7 +49,17 @@ export const Navbar = () => {
                 </Link>
               </li>
             </ul>
+          </div> :
+          <div className="d-flex" role="search">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className={`nav-link ${location.pathname==="/logout" ? "active" : "" }`} onClick={handleLogout}>
+                Logout
+                </Link>
+              </li>
+            </ul>
           </div>
+          }
         </div>
       </div>
     </nav>

@@ -11,7 +11,6 @@ router.get("/fetchAllNotes", fetchUser, async (req, res) => {
         const notes = await Notes.find({ user: req.user.id });
         res.json(notes);
     } catch (error) {
-        console.error(error);
         res.status(500).send("Some Error Occoured");
     }
 });
@@ -29,7 +28,6 @@ router.post("/addNote", fetchUser,
   async (req, res) => {
     try {
       const { title, description, tag } = req.body;
-      console.log(title, description, tag )
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         // return res.status(400).json({ errors: errors.array() });
@@ -44,7 +42,6 @@ router.post("/addNote", fetchUser,
       const saveNote = await note.save();
       res.json(saveNote);
     } catch (error) {
-        console.error(error);
         res.status(500).send("Some Error Occoured");
     }
   }
@@ -73,7 +70,6 @@ router.put("/updateNote/:id", fetchUser, async (req, res) => {
       res.json({note});
 
     } catch (error) {
-        console.error(error);
         res.status(500).send("Some Error Occoured");
     }
   }
@@ -95,7 +91,6 @@ router.delete("/deleteNote/:id", fetchUser, async (req, res) => {
     res.json({"Sucess": "Note is Deleted", note: note});
 
   } catch (error) {
-      console.error(error);
       res.status(500).send("Some Error Occoured");
   }
 }

@@ -6,10 +6,8 @@ export const Home = (props) => {
   return (
     <div>
       <div className="container">
-        
+        <Notes showAlert={showAlert}></Notes>      
       </div>
-
-      <Notes showAlert={showAlert}></Notes>
     </div>
   );
 };

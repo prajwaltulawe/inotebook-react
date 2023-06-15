@@ -70,6 +70,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      success = false;
       return res.status(400).json({ success, errors: errors.array() });
     }
 
@@ -78,12 +79,18 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ success, error: "Incorrect credentials !" });
+        success = false;
+        return res
+          .status(400)
+          .json({ success, error: "Incorrect credentials !" });
       }
 
       const passCompare = await bycrypt.compare(password, user.password);
       if (!passCompare) {
-        return res.status(400).json({ success, error: "Incorrect credentials !" });
+        success = false;
+        return res
+          .status(400)
+          .json({ success, error: "Incorrect credentials !" });
       }
       const payLoad = {
         user: {
@@ -100,13 +107,12 @@ router.post(
 );
 
 // GET LOGEDIN USER DETAILS "API/AUTH/GETUSER"
-router.post("/getUser",fetchUser, async (req, res) => {
+router.post("/getUser", fetchUser, async (req, res) => {
   try {
     var userId = req.user.id;
     const user = await User.findById(userId).select("-password");
-    res.send(user)
+    res.send(user);
   } catch (error) {
-    console.error(error);
     res.status(500).send("Some Error Occoured");
   }
 });

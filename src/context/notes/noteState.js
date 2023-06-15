@@ -14,8 +14,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ3YjhhN2EyN2MxMmVjYzc1MmFjYmFhIn0sImlhdCI6MTY4NTgxNzk3OH0.e9OvrGhCRC-I9ca5oeO_HEFUNoT5bFmLbJIH1F-hENY",
+        "auth-token": localStorage.getItem('token'),
       },
     });
     const json = await getNotesResponse.json();
@@ -28,8 +27,7 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ3YjhhN2EyN2MxMmVjYzc1MmFjYmFhIn0sImlhdCI6MTY4NTgxNzk3OH0.e9OvrGhCRC-I9ca5oeO_HEFUNoT5bFmLbJIH1F-hENY",
+        "auth-token": localStorage.getItem('token'),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -47,8 +45,7 @@ const NoteState = (props) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ3YjhhN2EyN2MxMmVjYzc1MmFjYmFhIn0sImlhdCI6MTY4NTgxNzk3OH0.e9OvrGhCRC-I9ca5oeO_HEFUNoT5bFmLbJIH1F-hENY",
+          "auth-token": localStorage.getItem('token'),
         },
       }
     );
@@ -65,8 +62,7 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ3YjhhN2EyN2MxMmVjYzc1MmFjYmFhIn0sImlhdCI6MTY4NTgxNzk3OH0.e9OvrGhCRC-I9ca5oeO_HEFUNoT5bFmLbJIH1F-hENY",
+        "auth-token": localStorage.getItem('token'),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -74,7 +70,7 @@ const NoteState = (props) => {
     let newNotes = JSON.parse(JSON.stringify(notes));
     for (let index = 0; index < newNotes.length; index++) {
       const element = newNotes[index];
-      if (element._id == id) {
+      if (element._id === id) {
         element.title = title;
         element.description = description;
         element.tag = tag;
@@ -85,9 +81,7 @@ const NoteState = (props) => {
   };
 
   return (
-    <noteContext.Provider
-      value={{ notes, addNote, deleteNote, editNote, getNotes }}
-    >
+    <noteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes }} >
       {props.children}
     </noteContext.Provider>
   );
